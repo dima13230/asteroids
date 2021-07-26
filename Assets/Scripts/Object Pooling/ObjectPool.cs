@@ -35,11 +35,10 @@ public class ObjectPool : MonoBehaviour
 
     /// <summary>
     /// Создаёт и добавляет в пул объект.
-    /// Объект должен содержать компонент DestroyablePoolObject.
+    /// Объект должен содержать компонент PoolObject.
     /// </summary>
     /// <param name="name">Название создаваемого из массива объекта</param>
-    /// <param name="amount">Количество созданных объектов. По умолчанию равно 1</param>
-    /// <returns>Массив созданных объектов</returns>
+    /// <returns>Созданный объект</returns>
     public GameObject AddObjectToPool(string name)
     {
         GameObject obj = GetPrefabByName(name);
@@ -64,7 +63,7 @@ public class ObjectPool : MonoBehaviour
 
     /// <summary>
     /// Создаёт и добавляет в пул объекты из данного массива.
-    /// Объекты должны содержать компонент DestroyablePoolobject.
+    /// Объекты должны содержать компонент PoolObject.
     /// </summary>
     /// <param name="names">Массив с именами создаваемых объектов</param>
     /// <returns>Массив с созданными объектами</returns>
@@ -141,28 +140,24 @@ public class ObjectPool : MonoBehaviour
     }
 
     /// <summary>
-    /// Вызывает метод "уничтожения" объекта и делает его неактивным, либо полностью удаляет объект.
+    /// Вызывает метод "уничтожения" объекта и делает его неактивным.
     /// </summary>
     /// <param name="destroyer">От имени какого объекта происходит удаление</param>
     /// <param name="obj">Объект</param>
-    /// <param name="invokeComponentDestroy">Если true, перед деактивацией выполняется метод Destroy класса DestroyablePoolObject. По умолчанию true</param>
-    /// <returns>Возвращает true, если удаление произошло успешно (если объект был в списке)</returns>
-    public bool RemoveObject(GameObject destroyer, GameObject obj, bool invokeComponentDestroy = true)
+    /// <param name="invokeComponentDestroy">Если true, перед деактивацией выполняется метод Destroy класса PoolObject. По умолчанию true</param>
+    public void RemoveObject(GameObject destroyer, GameObject obj, bool invokeComponentDestroy = true)
     {
-        bool removed = false;
-
         if (invokeComponentDestroy)
         {
             obj.GetComponent<PoolObject>().Destroy(destroyer);
         }
         obj.SetActive(false);
-        return removed;
     }
 
     /// <summary>
     /// Уничтожает и удаляет все объекты, содержащие компонент указанного типа.
     /// </summary>
-    /// <typeparam name="T">Класс, по которому мы будем искать объект. Должен быть дочерним к DestroyablePoolObject</typeparam>
+    /// <typeparam name="T">Класс, по которому мы будем искать объект. Должен быть дочерним к PoolObject</typeparam>
     public void RemoveAllObjectsOfType<T>(GameObject destroyer)
     {
         if (typeof(T).IsSubclassOf(typeof(PoolObject)))
@@ -202,10 +197,10 @@ public class ObjectPool : MonoBehaviour
     }
 
     /// <summary>
-    /// 
+    /// Возвращает true, если в пуле содержатся активные объекты, содержащие данный компонент
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
+    /// <typeparam name="T">Компонент, по которому мы ищем. Должен быть дочерним классу PoolObject</typeparam>
+    /// <returns>Возвращает true, если в пуле содержатся активные объекты, содержащие данный компонент</returns>
     public bool HasActivePoolObjectsOfType<T>()
     {
         if (typeof(T).IsSubclassOf(typeof(PoolObject)))
