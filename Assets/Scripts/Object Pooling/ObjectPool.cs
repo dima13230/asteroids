@@ -112,7 +112,7 @@ public class ObjectPool : MonoBehaviour
         {
             foreach (GameObject obj in pool)
             {
-                if (obj.GetComponent(typeof(T)) && !obj.activeInHierarchy) // Если obj содержит указанный компонент и при этом активен, добавляем его в список
+                if (obj.GetComponent(typeof(T)) && obj.activeInHierarchy) // Если obj содержит указанный компонент и при этом активен, добавляем его в список
                 {
                     foundObjects.Add(obj);
                 }
