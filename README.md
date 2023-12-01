@@ -1,5 +1,3 @@
-# megame-task-1
+# Asteroids
 
-Видео-демонстрация: https://youtu.be/ZlyeIkHCaxc
-
-Билд: https://drive.google.com/file/d/1JJFa2HgyfDur6MY9hmjUluMk-HNSRVRZ/view?usp=sharing
+Video demo: https://youtu.be/ZlyeIkHCaxc
